@@ -1,0 +1,67 @@
+<% layout('layouts/boilerplate')%>
+<div id="cluster-map"></div>
+<h1>All Your Rentals</h1>
+<div>
+  <a href="/Honbil/new">Add Rental</a>
+</div>
+
+<% for (let rental of rentals){%> <% if( rental.author.equals(check)) {%>
+
+<div class="card" mb-3>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%= rental.title %></h5>
+
+        <p class="card-text"><%= rental.description %></p>
+        <p class="card-text">
+          <small class="text-muted"><%= rental.location%></small>
+        </p>
+        <div
+          id="carouselExampleControls"
+          class="carousel slide"
+          data-bs-ride="carousel"
+        >
+          <div class="carousel-inner">
+            <% rental.images.forEach((img,i) => { %>
+            <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+              <img src="<%= img.url%>" class="img-thumbnail" alt="..." />
+            </div>
+            <% }) %>
+          </div>
+          <% if(rental.images.length>1) { %>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleControls"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleControls"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+          <% } %>
+        </div>
+        <a class="btn btn-primary" href="/Honbil/<%=rental._id%>"
+          >View <%=rental.title%></a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+<% } else{%> <% }%> <% }%>
+
+<script>
+  const mapToken = "<%-process.env.MAP_BOX%>";
+  const campground ={features:<%-JSON.stringify(user)%>}
+</script>
+
+<script src="/javascripts/showPageMap.js"></script>

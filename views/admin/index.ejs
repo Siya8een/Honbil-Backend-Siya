@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>ADMIN Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+      integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+      crossorigin="anonymous"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/admin.css" />
+  </head>
+  <body>
+    <header role="banner">
+      <h1>Admin Panel</h1>
+      <ul class="utilities">
+        <br />
+        <li class="users"><a href="/admin/home">My Account</a></li>
+        <li class="logout warn"><a href="/admin/logout">Log Out</a></li>
+      </ul>
+    </header>
+
+    <nav role="navigation">
+      <ul class="main">
+        <li class="dashboard"><a href="/admin/home">Dashboard</a></li>
+
+        <li class="users"><a href="/admin/users">Manage Users</a></li>
+      </ul>
+    </nav>
+    <div id="cluster-map"></div>
+    <main role="main">
+      <section class="panel important">
+        <h2>Owners for validation</h2>
+        <ul></ul>
+
+        <% if(success && success.length) {%>
+        <div
+          class="alert alert-success alert-dismissible fade show"
+          role="alert"
+        >
+          <%= success %>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <% } %> <% if(error && error.length) {%>
+        <div
+          class="alert alert-danger alert-dismissible fade show"
+          role="alert"
+        >
+          <%= error %>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <% } %> <% for (let user of users){%> <% if (user.isVerified ==='false')
+        {%>
+        <form
+          action="/admin/home/<%=user._id%> "
+          method="POST"
+          novalidate
+          class="validated-form"
+        >
+          <div class="card" mb-3>
+            <div class="row">
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title"><%= user.username %></h5>
+                  <p class="card-text"><%= user.phone %></p>
+                  <p class="card-text">
+                    <small class="text-muted"><%= user.email%></small>
+                  </p>
+                </div>
+                <div class="card mb-6">
+                  <% if(user.images.length>0) {for(let img of user.images) {%>
+                  <img
+                    src="<%=img.url%>"
+                    style="width: 400px; height: 300px"
+                    alt="..."
+                  />
+                  <% }} else {%>
+                  <img
+                    src="<%=user.images[0].url%>"
+                    style="width: 400px; height: 300px"
+                    alt="..."
+                  />
+                  <% }%>
+                </div>
+                <div class="card mb-6">
+                  <% if(user.legal.length>0) {for(let img of user.legal) {%>
+                  <img
+                    src="<%=img.url%>"
+                    style="width: 400px; height: 300px"
+                    alt="..."
+                  />
+                  <% }} else {%>
+                  <img
+                    src="<%=user.legal[0].url%>"
+                    style="width: 400px; height: 300px"
+                    alt="..."
+                  />
+                  <% }%>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <button class="btn btn-success">Approve</button>
+          </div>
+        </form>
+        <% }%> <% }%>
+      </section>
+    </main>
+    <script>
+      const mapToken = "<%-process.env.MAP_BOX%>";
+      const campgrounds ={features:<%-JSON.stringify(users)%>}
+    </script>
+
+    <script src="/javascripts/clusterMap.js"></script>
+  </body>
+</html>

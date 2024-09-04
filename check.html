@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container my-5">
+      <div class="card">
+        <form
+          action="/register"
+          method="POST"
+          class="validated-form"
+          novalidate
+          enctype="multipart/form-data"
+        >
+          <!-- Card header -->
+          <div class="card-header py-4 px-5 bg-light border-0">
+            <h4 class="mb-0 fw-bold">Register Here</h4>
+          </div>
+
+          <!-- Card body -->
+          <div class="card-body px-5">
+            <!-- Account section -->
+            <div class="row gx-xl-5">
+              <div class="col-md-4">
+                <h5>Account</h5>
+                <p class="text-muted">
+                  Please add your exact Account details as that will be used to
+                  verify your licence and dealership.
+                </p>
+              </div>
+
+              <div class="col-md-8">
+                <div class="mb-3">
+                  <label class="form-label" for="username">Full name</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="username"
+                    name="username"
+                    style="max-width: 500px"
+                    required
+                    autofocus
+                  />
+                  <div class="valid-feedback">Looks good!</div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="email">Email address</label>
+                  <input
+                    class="form-control"
+                    type="email"
+                    id="email"
+                    name="email"
+                    style="max-width: 500px"
+                    required
+                  />
+                  <div class="valid-feedback">Looks good!</div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="email">Whatsapp number</label>
+                  <input
+                    class="form-control"
+                    type="number"
+                    id="phone"
+                    name="phone"
+                    style="max-width: 500px"
+                    required
+                  />
+                </div>
+              </div>
+
+              <hr class="my-5" />
+
+              <!-- Adhar section -->
+              <div class="row gx-xl-5">
+                <div class="col-md-4">
+                  <h5>Owner Identification</h5>
+                  <p class="text-muted">
+                    Please upload the photo of your adhar card for verfication
+                  </p>
+                </div>
+
+                <div class="col-md-8">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <div class="form-file custom-file">
+                          <input
+                            type="file"
+                            class="form-file-input"
+                            id="file"
+                            name="image"
+                            multiple
+                            required
+                          />
+                          <label class="form-file-label" for="image">
+                            <span class="form-file-text custom-file-label"
+                              >Choose image(s)...</span
+                            >
+                            <span class="form-file-button">Browse</span>
+                          </label>
+                          <div id="selectedFiles"></div>
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <hr class="my-5" />
+
+              <!-- Legal documents -->
+              <div class="row gx-xl-5">
+                <div class="col-md-4">
+                  <h5>Rental Identification</h5>
+                  <p class="text-muted">
+                    Please add legal documents that verify your Shop
+                  </p>
+                </div>
+                <div class="col-md-8">
+                  <div class="mb-3">
+                    <div class="form-file custom-file">
+                      <input
+                        type="file"
+                        class="form-file-input"
+                        id="file2"
+                        name="legal"
+                        multiple
+                        required
+                      />
+                      <label class="form-file-label" for="legal">
+                        <span class="form-file-text custom-file-label"
+                          >Choose image(s)...</span
+                        >
+                        <span class="form-file-button">Browse</span>
+                      </label>
+                      <div id="selectedFiles2"></div>
+                      <div class="valid-feedback">Looks good!</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <hr class="my-5" />
+
+              <!-- Password section -->
+              <div class="col-md-6">
+                <label class="form-label" for="password">Password</label>
+                <input
+                  class="form-control"
+                  type="password"
+                  id="password"
+                  name="password"
+                  style="max-width: 500px"
+                  required
+                />
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card footer -->
+          <div class="card-footer text-end py-4 px-5 bg-light border-0">
+            <button type="submit" class="btn btn-primary btn-rounded">
+              Submit
+            </button>
+            <div class="card-footer text-end py-4 px-5 bg-light border-0">
+              <input id="checkbox" type="checkbox" required />
+              <label for="checkbox">
+                I agree to these <a href="#">Terms and Conditions</a>.</label
+              >
+            </div>
+          </div>
+        </form>
+        <script>
+          var selDiv = "";
+          var selDiv2 = "";
+
+          document.addEventListener("DOMContentLoaded", init, false);
+
+          function init() {
+            document.querySelector("#file").addEventListener(
+              "change",
+              handleFileSelect,
+
+              false
+            );
+            selDiv = document.querySelector("#selectedFiles");
+            selDiv2 = document.querySelector("#selectedFiles2");
+          }
+          function init2() {
+            document
+              .querySelector("#file2")
+              .addEventListener("change", handleFileSelect2, false);
+            selDiv2 = document.querySelector("#selectedFiles2");
+          }
+
+          function handleFileSelect(e) {
+            if (!e.target.files) return;
+
+            selDiv.innerHTML = "";
+
+            var files = e.target.files;
+            for (var i = 0; i < files.length; i++) {
+              var f = files[i];
+
+              selDiv.innerHTML += f.name + "<br/>";
+            }
+          }
+
+          function handleFileSelect2(e) {
+            if (!e.target.files) return;
+
+            selDiv2.innerHTML = "";
+
+            var files = e.target.files;
+            for (var i = 0; i < files.length; i++) {
+              var f = files[i];
+
+              selDiv2.textContent += f.name + "<br/>";
+            }
+          }
+        </script>
+      </div>
+    </div>
+  </body>
+</html>
